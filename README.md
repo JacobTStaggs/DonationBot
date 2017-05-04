@@ -22,3 +22,5 @@ Simple steam bot that accepts donations. Very simple to use and to edit.
 * cd /pathtoyourdirectory
 * node bot.js
 
+### What's next:
+* Option for profit bot
