@@ -1,4 +1,4 @@
-```javascript
+
 /*
  _______  _______  ______   _______    ______           
 (       )(  ___  )(  __  \ (  ____ \  (  ___ \ |\     /|
@@ -126,4 +126,4 @@ client.on('friendRelationship', (steamid, relationship) => {
         client.chatMessage(steamid, editables.newFriendMsg);
     }
 });
-```
+
