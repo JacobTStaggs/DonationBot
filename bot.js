@@ -159,6 +159,7 @@ client.on('friendRelationship', (steamid, relationship) => {
 });
 
 client.on('friendMessage', (steamid, message) => {
+	console.log(`New message from: ${steamid} saying: ${message}`);
 	console.log(editables.commands[message]);
 		if(editables.commands[message]){
 			client.chatMessage(steamid, editables.commands[message]);
