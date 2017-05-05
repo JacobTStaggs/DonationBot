@@ -42,10 +42,19 @@ const editables = {
 	sharedSecret: 'shared_secret', //Shared Secret from .MA file
 	identitySecret: 'identity_secret', //Identity Secret from .MA file
 	userName: 'userName', //Username to login with
-	password: 'password', //Password to login with
-	botName: 'name_for_bot', //Name you want for your bot
-	newFriendMsg: 'Hello there, I only accept trades where I receive items and do not send them. My creator is: http://steamcommunity.com/profiles/76561198121434322/', //Message for a user when they send a fr
-	game: 'Whatever I wanna play' //Custom game the bot is playing
+	adminID: ['76561198121434322'], //Your steam64 ID, you can add multiple just format it like this ["id1", "id2"]
+	botName: 'New bot', //Name of the bot ex: ShadyDaDevs Donation Bot
+	newFriendMsg: 'Hello there, I only accept trades where I receive items and do not send them. Need help? Type !help or !commands', //Message when added
+	game: 'Whatever I wanna play', //Game your bot will be playing
+	tradeMsg: 'Thanks for the donation! If you want a bot like me type !creator', //Message should send when you get a donation.. Did not test. 
+	unknown: 'Error: Unknown command.', //Unknown command message when user sends a message that the bot doesn't recognize
+	adminMsg: 'Hi admin, I will accept your offer so you can have my skins', //Message when you send the bot an offer(admin)
+	commands: { //You can add as much as you like just make sure you keep the same format I have. 
+		"!help": "To donate please just send me a trade offer with the items you want to give.",
+		"!creator": "My creator is ShadyDaDev, you can find an open source of me here: https://github.com/JacobTStaggs/DonationBot",
+		"!commands": "My commands are: !help, !creator",
+		
+	}
 };
 
 
@@ -79,6 +88,9 @@ const editables = {
 |/ \___/ (_______/(_______/(_______)(_______)
 */
 
+
+
+
 const logOnOptions = {
 	accountName: editables.userName,
 	password: editables.password,
@@ -101,10 +113,26 @@ client.on('webSession', (sessionid, cookies) => {
 	community.startConfirmationChecker(10000, editables.identitySecret);
 });
 
+function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+
 manager.on('newOffer', (offer) => {
-	if (offer.itemsToGive.length === 0) {
+	const partnerID = offer.partner.getSteamID64();
+	console.log(`New offer # ${offer.id} from ${partnerID}`);
+	if(isInArray(partnerID, editables.adminID)){
+			client.chatMessage(partnerID, editables.adminMsg);
+			offer.accept((err, status) => {
+				if(err){
+					console.log(err)
+				}else{
+					console.log('Automatically accepting the offer from the admin');
+				}
+});}
+	 else if(offer.itemsToGive.length === 0) {
 		offer.accept((err, status) => {
 			if (err) {
+				client.chatMessage(partnerID, editables.tradeMsg);
 				console.log(err);
 			} else {
 				console.log(`Donation accepted. Status: ${status}.`);
@@ -130,3 +158,13 @@ client.on('friendRelationship', (steamid, relationship) => {
     }
 });
 
+client.on('friendMessage', (steamid, message) => {
+	console.log(editables.commands[message]);
+		if(editables.commands[message]){
+			client.chatMessage(steamid, editables.commands[message]);
+			
+		}
+		else{
+			client.chatMessage(steamid, editables.unknown);
+		}
+});
