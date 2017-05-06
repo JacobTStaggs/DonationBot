@@ -42,6 +42,7 @@ const editables = {
 	sharedSecret: 'shared_secret', //Shared Secret from .MA file
 	identitySecret: 'identity_secret', //Identity Secret from .MA file
 	userName: 'userName', //Username to login with
+	password: 'yourpassword', //Password to login with
 	adminID: ['76561198121434322'], //Your steam64 ID, you can add multiple just format it like this ["id1", "id2"]
 	botName: 'New bot', //Name of the bot ex: ShadyDaDevs Donation Bot
 	newFriendMsg: 'Hello there, I only accept trades where I receive items and do not send them. Need help? Type !help or !commands', //Message when added
