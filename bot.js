@@ -3,7 +3,6 @@
 Follow me on github: https://github.com/JacobTStaggs
 Follow me on twitter: https://twitter.com/ShadyDaDev
 Follow me on Twitch: https://twitch.tv/ShadyDaDev
-S
  _______  _______  ______   _______    ______
 (       )(  ___  )(  __  \ (  ____ \  (  ___ \ |\     /|
 | () () || (   ) || (  \  )| (    \/  | (   ) )( \   / )
@@ -160,7 +159,8 @@ manager.on('newOffer', (offer) =>{
       accept(offer);
   } else if(!offer.itemsToGive.length) {
     console.log('New donation from: ' + partnerID);
-    client.chatMessage(editables.accountInfo.testID, 'New items in the bot send a trade offer for the items to withdraw');
+    client.chatMessage(partnerID, editables.messages.newDonation);
+    client.chatMessage(editables.accountInfo.adminID, 'New items in the bot send a trade offer for the items to withdraw');
     accept(offer);
   }
   else {
