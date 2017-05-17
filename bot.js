@@ -45,7 +45,7 @@ const editables = {
     identitySecret: 'identitySecret', //Identity secret from .ma file
     userName: 'userName', //Username to login WITH
     password: 'password', //Password to login WITH
-     adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID can have multiple admins
+     adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID can have multiple admins Owner needs to be in both
     ownerID: '76561198121434322', //Decided to be lazy and do it this way, this will make sure you receive updates on the bot only 1 owner
     botName: "Shady's bot", //What you want your bot name to show as on steam-user
     game: 'Twitch.tv/ShadyDaDev', //What game you are playing
