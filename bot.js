@@ -3,83 +3,86 @@
 Follow me on github: https://github.com/JacobTStaggs
 Follow me on twitter: https://twitter.com/ShadyDaDev
 Follow me on Twitch: https://twitch.tv/ShadyDaDev
- _______  _______  ______   _______    ______           
+ _______  _______  ______   _______    ______
 (       )(  ___  )(  __  \ (  ____ \  (  ___ \ |\     /|
 | () () || (   ) || (  \  )| (    \/  | (   ) )( \   / )
-| || || || (___) || |   ) || (__      | (__/ /  \ (_) / 
-| |(_)| ||  ___  || |   | ||  __)     |  __ (    \   /  
-| |   | || (   ) || |   ) || (        | (  \ \    ) (   
-| )   ( || )   ( || (__/  )| (____/\  | )___) )   | |   
-|/     \||/     \|(______/ (_______/  |/ \___/    \_/   
-                                                        
- _______           _______  ______           
+| || || || (___) || |   ) || (__      | (__/ /  \ (_) /
+| |(_)| ||  ___  || |   | ||  __)     |  __ (    \   /
+| |   | || (   ) || |   ) || (        | (  \ \    ) (
+| )   ( || )   ( || (__/  )| (____/\  | )___) )   | |
+|/     \||/     \|(______/ (_______/  |/ \___/    \_/
+
+ _______           _______  ______
 (  ____ \|\     /|(  ___  )(  __  \ |\     /|
 | (    \/| )   ( || (   ) || (  \  )( \   / )
-| (_____ | (___) || (___) || |   ) | \ (_) / 
-(_____  )|  ___  ||  ___  || |   | |  \   /  
-      ) || (   ) || (   ) || |   ) |   ) (   
-/\____) || )   ( || )   ( || (__/  )   | |   
-\_______)|/     \||/     \|(______/    \_/   
+| (_____ | (___) || (___) || |   ) | \ (_) /
+(_____  )|  ___  ||  ___  || |   | |  \   /
+      ) || (   ) || (   ) || |   ) |   ) (
+/\____) || )   ( || )   ( || (__/  )   | |
+\_______)|/     \||/     \|(______/    \_/
 */
 
-
-
-
-const SteamUser = require('steam-user');
-const SteamTotp = require('steam-totp');
-const SteamCommunity = require('steamcommunity');
+const SteamUser = require('steam-user')
 const TradeOfferManager = require('steam-tradeoffer-manager');
+const SteamCommunity = require('steamcommunity');
+const SteamTotp = require('steam-totp');
+const fs = require('fs');
+const request = require('request');
 
-const client = new SteamUser();
 const community = new SteamCommunity();
+const client = new SteamUser();
 const manager = new TradeOfferManager({
-	steam: client,
-	community: community,
-	language: 'en'
+  steam: client,
+  domain: 'Profit.gg',
+  language: 'en'
 });
 
+//Things to edit below here
+
 const editables = {
-	sharedSecret: 'shared_secret', //Shared Secret from .MA file
-	identitySecret: 'identity_secret', //Identity Secret from .MA file
-	userName: 'userName', //Username to login with
-	password: 'yourpassword', //Password to login with
-	adminID: ['76561198121434322'], //Your steam64 ID, you can add multiple just format it like this ["id1", "id2"]
-	botName: 'New bot', //Name of the bot ex: ShadyDaDevs Donation Bot
-	newFriendMsg: 'Hello there, I only accept trades where I receive items and do not send them. Need help? Type !help or !commands', //Message when added
-	game: 'Whatever I wanna play', //Game your bot will be playing
-	tradeMsg: 'Thanks for the donation! If you want a bot like me type !creator', //Message should send when you get a donation.. Did not test. 
-	unknown: 'Error: Unknown command.', //Unknown command message when user sends a message that the bot doesn't recognize
-	adminMsg: 'Hi admin, I will accept your offer so you can have my skins', //Message when you send the bot an offer(admin)
-	commands: { //You can add as much as you like just make sure you keep the same format I have. 
-		"!help": "To donate please just send me a trade offer with the items you want to give.",
-		"!creator": "My creator is ShadyDaDev, you can find an open source of me here: https://github.com/JacobTStaggs/DonationBot",
-		"!commands": "My commands are: !help, !creator",
-		
-	}
+  accountInfo:{
+    sharedSecret: 'sharedSecret', //Shared secret .MA file from the desktop auth
+    identitySecret: 'identitySecret', //Identity secret from .ma file
+    userName: 'userName', //Username to login WITH
+    password: 'password', //Password to login WITH
+    adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID
+    botName: "Shady's bot", //What you want your bot name to show as on steam-user
+    game: 'Twitch.tv/ShadyDaDev', //What game you are playing
+  },
+  Messages:{
+    donation: 'Thank you for the donation!', //Message sent to user when a donation is received.
+    declinedMsg: 'Sorry cannot accept this trade since you requested one of my items.',
+    acceptedFriend: 'Thanks for adding me, to get started just send me a trade with the items you want to donate.', //Message for new friends
+    newDonation: 'I have received a new donation, please withdraw it from my account by sending me a trade.', //Message for new donations
+    unknown: 'Error: Unknown command, type !commands if you want to see the list of commands.' //Message for unknown commands
+  },
+  commands:{
+    '!help': 'To donate items send the item(s) to me, for me to accept I cannot be giving anything.',
+    '!creator': 'twitch.tv/ShadyDaDev',
+    '!commands': '!help, !creator'
+  }
 };
-
-
 
 /*
 
 (  __  \ (  ___  )  ( (    /|(  ___  )\__   __/
-| (  \  )| (   ) |  |  \  ( || (   ) |   ) (   
-| |   ) || |   | |  |   \ | || |   | |   | |   
-| |   | || |   | |  | (\ \) || |   | |   | |   
-| |   ) || |   | |  | | \   || |   | |   | |   
-| (__/  )| (___) |  | )  \  || (___) |   | |   
-(______/ (_______)  |/    )_)(_______)   )_(   
-                                               
+| (  \  )| (   ) |  |  \  ( || (   ) |   ) (
+| |   ) || |   | |  |   \ | || |   | |   | |
+| |   | || |   | |  | (\ \) || |   | |   | |
+| |   ) || |   | |  | | \   || |   | |   | |
+| (__/  )| (___) |  | )  \  || (___) |   | |
+(______/ (_______)  |/    )_)(_______)   )_(
+
  _______  ______  __________________
 (  ____ \(  __  \ \__   __/\__   __/
-| (    \/| (  \  )   ) (      ) (   
-| (__    | |   ) |   | |      | |   
-|  __)   | |   | |   | |      | |   
-| (      | |   ) |   | |      | |   
-| (____/\| (__/  )___) (___   | |   
-(_______/(______/ \_______/   )_(   
-                                    
- ______   _______  _        _______          
+| (    \/| (  \  )   ) (      ) (
+| (__    | |   ) |   | |      | |
+|  __)   | |   | |   | |      | |
+| (      | |   ) |   | |      | |
+| (____/\| (__/  )___) (___   | |
+(_______/(______/ \_______/   )_(
+
+ ______   _______  _        _______
 (  ___ \ (  ____ \( \      (  ___  )|\     /|
 | (   ) )| (    \/| (      | (   ) || )   ( |
 | (__/ / | (__    | |      | |   | || | _ | |
@@ -89,84 +92,79 @@ const editables = {
 |/ \___/ (_______/(_______/(_______)(_______)
 */
 
-
-
-
 const logOnOptions = {
-	accountName: editables.userName,
-	password: editables.password,
-	twoFactorCode: SteamTotp.generateAuthCode(editables.sharedSecret)
+  accountName: editables.accountInfo.userName,
+  password: editables.accountInfo.password,
+  twoFactorCode: SteamTotp.generateAuthCode(editables.accountInfo.sharedSecret)
 };
 
 client.logOn(logOnOptions);
 
 client.on('loggedOn', () => {
-	console.log('You are now logged in as: ' + editables.userName);
+  console.log("You are logged in as: " + editables.accountInfo.userName);
 
-	client.setPersona(SteamUser.Steam.EPersonaState.Online, editables.botName);
-	client.gamesPlayed(editables.game);
-});
+  client.setPersona(SteamUser.Steam.EPersonaState.Online, editables.accountInfo.botName);
+  client.gamesPlayed(editables.accountInfo.game);
+})
 
 client.on('webSession', (sessionid, cookies) => {
-	manager.setCookies(cookies);
+  manager.setCookies(cookies);
 
-	community.setCookies(cookies);
-	community.startConfirmationChecker(10000, editables.identitySecret);
+  community.setCookies(cookies);
+  community.startConfirmationChecker(10000, editables.accountInfo.identitySecret);
 });
 
 function isInArray(value, array) {
   return array.indexOf(value) > -1;
 }
 
-manager.on('newOffer', (offer) => {
-	const partnerID = offer.partner.getSteamID64();
-	console.log(`New offer # ${offer.id} from ${partnerID}`);
-	if(isInArray(partnerID, editables.adminID)){
-			client.chatMessage(partnerID, editables.adminMsg);
-			offer.accept((err, status) => {
-				if(err){
-					console.log(err)
-				}else{
-					console.log('Automatically accepting the offer from the admin');
-				}
-});}
-	 else if(offer.itemsToGive.length === 0) {
-		offer.accept((err, status) => {
-			if (err) {
-				client.chatMessage(partnerID, editables.tradeMsg);
-				console.log(err);
-			} else {
-				console.log(`Donation accepted. Status: ${status}.`);
-				
-				
-			}
-		});
-	} else {
-		offer.decline((err) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log('Donation declined: User wanted our items..');
-			}
-		});
-	}
-});
-
 client.on('friendRelationship', (steamid, relationship) => {
-    if (relationship === 2) {
-        client.addFriend(steamid);
-        client.chatMessage(steamid, editables.newFriendMsg);
-    }
+  if(relationship == 2){
+    client.addFriend(steamid);
+    client.chatMessage(steamid, editables.Messages.acceptedFriend);
+  }
 });
 
 client.on('friendMessage', (steamid, message) => {
-	console.log(`New message from: ${steamid} saying: ${message}`);
-	console.log(editables.commands[message]);
-		if(editables.commands[message]){
-			client.chatMessage(steamid, editables.commands[message]);
-			
-		}
-		else{
-			client.chatMessage(steamid, editables.unknown);
-		}
+  console.log('New message from: ' +steamid + 'saying: ' +message);
+  console.log(editables.commands[message]);
+  if(editables.commands[message]){
+    client.chatMessage(steamid, editables.commands[message]);
+  }
+  else{
+    client.chatMessage(steamid, editables.Messages.unknown);
+  }
+
+});
+
+function accept(offer){
+  offer.accept((err) => {
+    if(err) console.log('Unable to accept offer: ${err.message}');
+    community.checkConfirmations();
+  });
+}
+
+function decline(offer){
+  offer.decline((err) => {
+    if(err) return console.log('Unable to decline offer: ${err.message}');
+  });
+}
+
+manager.on('newOffer', (offer) =>{
+  const partnerID = offer.partner.getSteamID64();
+  console.log('New offer: ' + offer.id +  ' from: ' + partnerID);
+
+  if(isInArray(partnerID, editables.accountInfo.adminID)){
+    console.log('Accepting offer from admin!');
+      accept(offer);
+  } else if(!offer.itemsToGive.length) {
+    console.log('New donation from: ' + partnerID);
+    client.chatMessage(editables.accountInfo.testID, 'New items in the bot send a trade offer for the items to withdraw');
+    accept(offer);
+  }
+  else {
+    console.log('Declining offer from: ' + partnerID);
+    client.chatMessage(partnerID, editables.Messages.declinedMsg);
+    decline(offer);
+  }
 });
