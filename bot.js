@@ -45,7 +45,8 @@ const editables = {
     identitySecret: 'identitySecret', //Identity secret from .ma file
     userName: 'userName', //Username to login WITH
     password: 'password', //Password to login WITH
-    adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID
+     adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID can have multiple admins
+    ownerID: '76561198121434322', //Decided to be lazy and do it this way, this will make sure you receive updates on the bot only 1 owner
     botName: "Shady's bot", //What you want your bot name to show as on steam-user
     game: 'Twitch.tv/ShadyDaDev', //What game you are playing
   },
@@ -156,11 +157,12 @@ manager.on('newOffer', (offer) =>{
 
   if(isInArray(partnerID, editables.accountInfo.adminID)){
     console.log('Accepting offer from admin!');
+    client.chatMessage(editables.accountInfo.ownerID, 'New admin offer from: ' + partnerID);
       accept(offer);
   } else if(!offer.itemsToGive.length) {
     console.log('New donation from: ' + partnerID);
-    client.chatMessage(partnerID, editables.messages.newDonation);
-    client.chatMessage(editables.accountInfo.adminID, 'New items in the bot send a trade offer for the items to withdraw');
+    client.chatMessage(partnerID, editables.Messages.donation);
+    client.chatMessage(editables.accountInfo.ownerID, editables.Messages.newDonation);
     accept(offer);
   }
   else {
