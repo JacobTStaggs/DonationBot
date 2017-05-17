@@ -3,6 +3,7 @@
 Follow me on github: https://github.com/JacobTStaggs
 Follow me on twitter: https://twitter.com/ShadyDaDev
 Follow me on Twitch: https://twitch.tv/ShadyDaDev
+S
  _______  _______  ______   _______    ______
 (       )(  ___  )(  __  \ (  ____ \  (  ___ \ |\     /|
 | () () || (   ) || (  \  )| (    \/  | (   ) )( \   / )
