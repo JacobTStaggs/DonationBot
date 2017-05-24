@@ -56,7 +56,7 @@ const editables = {
   },
   commands:{
     '!help': 'To donate items send the item(s) to me, for me to accept I cannot be giving anything.',
-    '!creator': 'twitch.tv/ShadyDaDev',
+    '!creator': Github: 'JacobTStaggs',
     '!commands': '!help, !creator'
   }
 };
