@@ -19,12 +19,12 @@
 \_______)|/     \||/     \|(______/    \_/
 */
 
-const SteamUser = require('steam-user')
+const SteamUser = require('steam-user');
 const TradeOfferManager = require('steam-tradeoffer-manager');
 const SteamCommunity = require('steamcommunity');
 const SteamTotp = require('steam-totp');
-const fs = require('fs');
-const request = require('request');
+const fs = require('fs'); //unused
+const request = require('request'); //unused
 
 const community = new SteamCommunity();
 const client = new SteamUser();
@@ -45,7 +45,7 @@ const editables = {
      adminID: ['765611981214343220'], //AdminID, will be used to accept/send messages from/to adminID can have multiple admins Owner needs to be in both
     ownerID: '76561198121434322', //Decided to be lazy and do it this way, this will make sure you receive updates on the bot only 1 owner
     botName: "Shady's bot", //What you want your bot name to show as on steam-user
-    game: 'Whatever game', //What game you are playing
+    game: 'Whatever game' //What game you are playing
   },
   Messages:{
     donation: 'Thank you for the donation!', //Message sent to user when a donation is received.
@@ -60,7 +60,7 @@ const editables = {
     '!commands': '!help, !creator'
   }
 };
-
+//Don't fix other errors because of this ->
 /*
 
 (  __  \ (  ___  )  ( (    /|(  ___  )\__   __/
